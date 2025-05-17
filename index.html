@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Chat Assistant</title>
+    <title>Liami - Assistente de Aprendizagem</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,21 +13,68 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <div class="chat-container">
-      <div class="chat-area" id="chat-area">
-        <div class="message bot-message">
-          Olá! Sou Lia, tua asistente de idomas, <br />Como te llamas?
+    <div id="initial-modal">
+      <div class="initial-modal-content">
+        <div class="liami-nome">
+          <img src="./src/logo.png" alt="Logo Liami" />
         </div>
-      </div>
-      <div class="input-area">
-        <input
-          type="text"
-          id="user-input"
-          placeholder="Digite sua mensagem..."
-        />
-        <button>Enviar</button>
+
+        <h2>Selecione suas preferências</h2>
+        <label for="idioma">Idioma:</label>
+        <select id="idioma">
+          <option value="">Selecione</option>
+          <option value="inglês">Inglês</option>
+          <option value="espanhol">Espanhol</option>
+          <option value="português">Português</option>
+          <option value="italiano">Italiano</option>
+        </select>
+
+        <label for="nivel">Nível:</label>
+        <select id="nivel">
+          <option value="">Selecione</option>
+          <option value="iniciante">Iniciante</option>
+          <option value="intermediário">Intermediário</option>
+          <option value="avançado">Avançado</option>
+        </select>
+
+        <button id="confirmar-selecao">Confirmar</button>
       </div>
     </div>
+
+    <div class="main-container hidden">
+      <div class="chat-container" id="chat-container">
+        <div class="chat-area" id="chat-area"></div>
+        <div class="input-area">
+          <input
+            type="text"
+            id="user-input"
+            placeholder="Digite sua mensagem..."
+          />
+          <button><img src="./src/send-26-16.png" alt="Enviar" /></button>
+        </div>
+      </div>
+
+      <section id="study-schedule">
+        <h2>Seções de Prática</h2>
+        <div id="schedule-cards"></div>
+        <img
+          class="alura_google"
+          src="./src/Wallpaper Cronograma de Estudos 1.png"
+          alt="Cronograma de Estudos"
+        />
+      </section>
+    </div>
+
+    <div id="cronograma-modal" class="modal hidden">
+      <div class="modal-content">
+        <span class="modal-close" id="modal-fechar">&times;</span>
+        <h3 id="modal-titulo">Título da Seção</h3>
+        <div id="modal-conteudo"></div>
+        <div id="modal-conversacao"></div>
+        <div id="modal-gramatica"></div>
+      </div>
+    </div>
+
     <script type="importmap">
       {
         "imports": {
@@ -36,6 +83,5 @@
       }
     </script>
     <script type="module" src="./index.js"></script>
-    <script type="module" src="./api-gemini.js"></script>
   </body>
 </html>

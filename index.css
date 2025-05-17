@@ -1,93 +1,376 @@
+/* index.css */
+
 body {
-  font-family: sans-serif;
+  font-family: "Raleway", sans-serif;
   margin: 20px;
-  background-color: #f4f4f4;
+  background-image: url("./src/fondo.jpg");
+  /* background: url("./src/fondo.jpg"); */
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-position-y: -60vh; */
+  /* transform: rotate(-90deg); */
+
+  /*background-color: #1a1a2e; /Fondo principal oscuro */
+  color: #e0e0e0; /* Texto claro para contraste */
+  overflow: hidden;
+}
+
+.main-container {
+  display: flex;
+  height: 100vh;
+}
+
+.alura_google {
+  width: 25vw;
+  position: fixed;
+  right: 14rem;
+  bottom: 2rem;
+  border-radius: 8px;
+}
+
+.glass-container {
+  /* Clase para aplicar el efecto glassmorphism */
+  background: rgba(41, 44, 76, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .chat-container {
-  max-width: 500px;
-  margin: 0 auto;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Se aplicará la clase glass-container */
   padding: 20px;
+  /* margin-bottom: 20px; */
+  width: 50%;
+  margin-right: 20px;
+  background-color: #1a1a2e90;
 }
 
 .chat-area {
-  height: 300px;
-  overflow-y: scroll;
-  padding: 10px;
+  height: 80vh;
+  margin-bottom: 15px;
+  overflow-y: auto;
+  scrollbar-width: thin; /* Para Firefox */
+  scrollbar-color: #88888850 #f1f1f110; /* Para Firefox */
+}
+
+.user {
+  text-align: right;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #eee;
 }
 
-.message {
-  padding: 8px 12px;
-  margin-bottom: 8px;
-  border-radius: 6px;
-  clear: both;
+.user p {
+  background-color: #5964e0; /* Morado vibrante */
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  max-width: 80%;
+  word-break: break-word;
 }
 
-.user-message {
-  background-color: #dcf8c6;
-  align-self: flex-end;
-  float: right;
+.model {
+  text-align: left;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
 }
 
-.bot-message {
-  background-color: #f0f0f0;
-  float: left;
+.model p {
+  background-color: rgba(
+    56,
+    62,
+    86,
+    0.7
+  ); /* Fondo semitransparente para el mensaje */
+  color: #a7a9be;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  max-width: 70%;
+  word-break: break-word;
+  margin-right: 10px;
+}
+
+.botao-hablar {
+  background: rgba(100, 197, 177, 0.4);
+  color: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: auto;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.botao-hablar:hover {
+  background: rgba(150, 148, 173, 0.9);
 }
 
 .input-area {
   display: flex;
+  /* background: rgba(41, 44, 76, 0.7);  */
+  padding: 10px;
+  gap: 10px;
+  /* border-radius: 6px; */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
 }
 
-#user-input {
+.input-area input[type="text"] {
   flex-grow: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 5px;
+  padding: 16px;
+  border: 1px solid #ffffff50;
+  border-radius: 18px;
+  background-color: rgba(56, 62, 86, 0.2); /* Fondo semitransparente */
+  color: #e0e0e0;
+  font-size: 1rem;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
-button {
-  padding: 8px 12px;
+.input-area button {
+  background: rgba(255, 255, 255, 0.4); /* Fondo semitransparente */
+  color: #fff;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
+  width: auto;
+  height: auto;
+  padding: 8px 15px;
+  border-radius: 50%;
   cursor: pointer;
+  transition: all 0.5s ease-in-out;
+  /* backdrop-filter: blur(5px); */
+  /* -webkit-backdrop-filter: blur(5px); */
 }
 
-button:hover {
-  background-color: #0056b3;
+.input-area button:hover {
+  background: rgba(207, 207, 207, 0.9);
+  rotate: -90deg;
+  transform: scale(1.02);
 }
 
-/* HTML: <div class="loader"></div> */
-.loader {
-  width: 30px;
-  opacity: 60%;
-  aspect-ratio: 2;
-  --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
-  background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
-  background-size: calc(100% / 3) 50%;
-  animation: l3 1.5s infinite linear;
-  z-index: 2000;
+#study-schedule {
+  margin-top: 0;
+  width: 50%;
+  padding: 20px;
 }
-@keyframes l3 {
-  20% {
-    background-position: 0% 0%, 50% 50%, 100% 50%;
-  }
-  40% {
-    background-position: 0% 100%, 50% 0%, 100% 50%;
-  }
-  60% {
-    background-position: 0% 50%, 50% 100%, 100% 0%;
-  }
-  80% {
-    background-position: 0% 50%, 50% 50%, 100% 100%;
-  }
+
+#schedule-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.schedule-card {
+  /* Se aplicará la clase glass-container */
+  padding: 15px;
+  text-align: center;
+  /* background-image: url("./src/fondo-card.jpg"); */
+  /* backface-visibility: 60%; */
+  /* background-size: cover; */
+  background-color: #06001390;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  transition: all 0.5s ease-in-out;
+}
+
+.schedule-card:hover {
+  /* border: 1px solid #ffffff40; */
+  transform: scale(1.02);
+}
+
+.schedule-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.schedule-card p {
+  color: #a7a9be;
+  font-size: 0.95em;
+}
+
+.ver-detalhes,
+.iniciar-secao {
+  background: rgba(255, 255, 255, 0.005); /* Fondo semitransparente */
+  color: #dddddd;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.ver-detalhes:hover,
+.iniciar-secao:hover {
+  background: rgba(80, 205, 137, 0.7);
+}
+
+.iniciar-secao {
+  background: rgba(75, 75, 75, 0.8); /* Morado para el botón iniciar sección */
+}
+
+.iniciar-secao:hover {
+  background: rgba(67, 77, 189, 0.9);
+  transform: scale(1.02);
+}
+
+/* Estilos para el modal inicial */
+#initial-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Fondo oscuro semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.liami-nome img {
+  max-width: 350px;
+  height: auto;
+}
+
+.initial-modal-content {
+  /* Se aplicará la clase glass-container */
+  padding: 30px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  background-color: #00000070;
+
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.initial-modal-content h2 {
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.initial-modal-content label {
+  display: block;
+  margin-bottom: 5px;
+  color: #a7a9be;
+  font-size: 0.95em;
+  text-align: left;
+}
+
+.initial-modal-content select,
+.initial-modal-content button {
+  display: block;
+  margin-bottom: 15px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.initial-modal-content select {
+  background: rgba(26, 28, 39, 0.7); /* Fondo semitransparente */
+  color: #e0e0e0;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(50px);
+}
+
+.initial-modal-content button {
+  background: rgba(62, 16, 102, 0.8); /* Fondo semitransparente */
+  color: #acacc4;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: al 0.5s ease-in-out;
+}
+
+.initial-modal-content button:hover {
+  background: rgba(102, 16, 42, 0.8);
+  transform: scale(1.02);
+}
+
+/* Estilos para el modal de detalles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+}
+
+.modal-content {
+  /* Se aplicará la clase glass-container */
+  margin: 15% auto;
+  padding: 30px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close {
+  color: #a7a9be;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+#modal-titulo {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #fff;
+}
+
+#modal-conteudo {
+  margin-bottom: 20px;
+  color: #a7a9be;
+  line-height: 1.7;
+}
+
+#modal-conversacao h4,
+#modal-gramatica h4 {
+  color: #64c5b1;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+#modal-conversacao ul,
+#modal-gramatica ul {
+  padding-left: 25px;
+  color: #a7a9be;
+  line-height: 1.6;
+}
+
+#modal-conversacao li,
+#modal-gramatica li {
+  margin-bottom: 5px;
+}
+
+.hidden {
+  display: none !important;
 }
