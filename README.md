@@ -46,6 +46,6 @@ Este projeto é uma aplicação web inovadora projetada para auxiliar no aprendi
 Contribuições são bem-vindas! Se você tiver ideias para melhorias, correções de bugs ou novas funcionalidades, sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
 
+## Agradecimentos
 
-[Seu Nome/Nickname do GitHub]
-[Seu Email (opcional)]
+Agradeço imensamente à Alura e ao Google Gemini pela iniciativa e pelo conhecimento transmitido. Já havia idealizado um projeto como este, e a oportunidade me proporcionou uma primeira experiência prática de desenvolvimento. Apesar de não ter conseguido finalizar o Liami nesta etapa, o aprendizado adquirido foi fundamental, e pretendo continuar estudando e desenvolvendo o projeto.
