@@ -13,12 +13,12 @@ Este projeto é uma aplicação web inovadora projetada para auxiliar no aprendi
 
 * **Seleção de Idioma e Nível:** Escolha entre inglês, espanhol, português e italiano, e defina seu nível de estudo.
 
-![Home](src/home.png)
+
 
 * **Cronograma de Estudos:** Um cronograma visual com seções para conversação, gramática, vocabulário e escrita.
 * **Prática de Gramática:** Seção dedicada com explicações e exercícios interativos (atualmente com exemplos estáticos).
 * **Chat Interativo com IA:** Converse com o Liami no idioma de aprendizado e receba respostas inteligentes e relevantes, com quebras de linha formatadas para melhor leitura.
-
+![home](src/home.png)
 ![Liami Logo](src/dashboard.png)
 
 * **Síntese de Voz:** Ouça as mensagens do Liami no idioma selecionado para aprimorar a compreensão auditiva e a pronúncia.
@@ -44,6 +44,7 @@ Este projeto é uma aplicação web inovadora projetada para auxiliar no aprendi
 ## Contribuição
 
 Contribuições são bem-vindas! Se você tiver ideias para melhorias, correções de bugs ou novas funcionalidades, sinta-se à vontade para abrir uma issue ou enviar um pull request.
+
 
 
 [Seu Nome/Nickname do GitHub]
