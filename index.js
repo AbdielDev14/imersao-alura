@@ -12,9 +12,9 @@ const confirmarSelecaoBtn = document.getElementById("confirmar-selecao");
 const scheduleSection = document.getElementById("study-schedule");
 const scheduleCardsContainer = document.getElementById("schedule-cards");
 const chatArea = document.querySelector(".chat-container .chat-area");
-const modalCronograma = document.getElementById("cronograma-modal"); // Referencia al modal
-const mainContainer = document.querySelector(".main-container"); // Nuevo contenedor principal
-const inputChat = document.querySelector(".chat-container .input-area input"); // Referencia al input de chat
+const modalCronograma = document.getElementById("cronograma-modal");
+const mainContainer = document.querySelector(".main-container");
+const inputChat = document.querySelector(".chat-container .input-area input");
 
 const textosCartoes = {
   inglês: [
@@ -86,7 +86,7 @@ confirmarSelecaoBtn.addEventListener("click", () => {
 
   if (learningLanguage && studyLevel) {
     initialModal.style.display = "none";
-    mainContainer.classList.remove("hidden"); // Muestra el contenedor principal
+    mainContainer.classList.remove("hidden");
     gerarCartoesCronograma(learningLanguage, studyLevel);
     adicionarMensagemBot(
       `Olá! Liami por aqui. 😉\n\nTô aqui pra te ajudar a aprender ${learningLanguage}! Explore as seções abaixo para começar.`
@@ -104,7 +104,7 @@ function adicionarMensagemBot(mensagem) {
 
   const botaoHablar = document.createElement("button");
   botaoHablar.classList.add("botao-hablar");
-  botaoHablar.textContent = "▶"; // Puedes usar un icono en lugar de texto
+  botaoHablar.textContent = "▶";
 
   botaoHablar.addEventListener("click", () => {
     if ("speechSynthesis" in window) {
@@ -118,7 +118,7 @@ function adicionarMensagemBot(mensagem) {
           ? "pt-BR"
           : learningLanguage === "italiano"
           ? "it-IT"
-          : "en-US"; // Establecer el idioma
+          : "en-US";
       speechSynthesis.speak(utterance);
     } else {
       alert("La síntesis de voz no es compatible con este navegador.");
@@ -128,7 +128,7 @@ function adicionarMensagemBot(mensagem) {
   mensagemDiv.appendChild(textoParrafo);
   mensagemDiv.appendChild(botaoHablar);
   chatArea.appendChild(mensagemDiv);
-  chatArea.scrollTop = chatArea.scrollHeight; // Mantener el scroll abajo al agregar mensaje
+  chatArea.scrollTop = chatArea.scrollHeight;
 }
 
 function gerarCartoesCronograma(idioma, nivel) {
@@ -136,18 +136,16 @@ function gerarCartoesCronograma(idioma, nivel) {
   const textosParaIdioma = textosCartoes[idioma.toLowerCase()];
 
   if (textosParaIdioma) {
-    textosParaIdioma.forEach((secao, index) => {
+    textosParaIdioma.forEach((secao) => {
       const card = document.createElement("div");
       card.classList.add("schedule-card");
       card.innerHTML = `
-                <h3>${secao.titulo}</h3>
-                <p>${secao.descricao}</p>
-                <button class="iniciar-secao" data-secao="${secao.titulo}">Iniciar</button>
-            `;
+          <h3>${secao.titulo}</h3>
+          <p>${secao.descricao}</p>
+          <button class="iniciar-secao" data-secao="${secao.titulo}">Iniciar</button>
+        `;
       scheduleCardsContainer.appendChild(card);
-      console.log(`Cartão "${secao.titulo}" gerado.`);
     });
-    console.log("Intentando adicionar listeners aos botões 'Iniciar'...");
     adicionarListenersIniciarSecao();
   } else {
     scheduleCardsContainer.innerHTML =
@@ -157,41 +155,26 @@ function gerarCartoesCronograma(idioma, nivel) {
 
 function adicionarListenersIniciarSecao() {
   const botoesIniciarSecao = document.querySelectorAll(".iniciar-secao");
-  console.log(
-    `Número de botões 'Iniciar' encontrados: ${botoesIniciarSecao.length}`
-  );
   botoesIniciarSecao.forEach((botao) => {
     botao.addEventListener("click", () => {
       const secaoTitulo = botao.dataset.secao;
-      console.log(`Botão 'Iniciar' clicado para a seção: ${secaoTitulo}`);
       exibirConteudoSecao(secaoTitulo, learningLanguage, studyLevel);
     });
   });
-  console.log("Listeners dos botões 'Iniciar' adicionados.");
 }
 
 function exibirConteudoSecao(tituloSecao, idioma, nivel) {
   const modalTitulo = document.getElementById("modal-titulo");
   const modalConteudo = document.getElementById("modal-conteudo");
-  const modalConversacao = document.getElementById("modal-conversacao");
-  const modalGramatica = document.getElementById("modal-gramatica");
-
-  console.log(
-    `Intentando exibir modal para: ${tituloSecao}, ${idioma}, ${nivel}`
+  const modalExercicios = document.getElementById("exercicios-modal");
+  const exerciciosLista = document.getElementById("exercicios-lista");
+  const modalFecharExercicios = document.getElementById(
+    "modal-fechar-exercicios"
   );
 
   modalTitulo.textContent = `Praticar ${tituloSecao} em ${idioma} (${nivel})`;
-  modalConteudo.innerHTML = `<p>O conteúdo para a seção de ${tituloSecao} no nível ${nivel} será adicionado em breve.</p>`;
-  modalConversacao.innerHTML = "";
-  modalGramatica.innerHTML = "";
 
-  const modalExercicios = document.getElementById("exercicios-modal"); // Assumindo um novo modal para exercícios
-  const exerciciosLista = document.getElementById("exercicios-lista"); // Lista dentro do modal de exercícios
-  const modalFecharExercicios = document.getElementById(
-    "modal-fechar-exercicios"
-  ); // Botão para fechar o modal de exercícios
-
-  if (tituloSecao === "Gramática" || tituloSecao === "Gramática") {
+  if (tituloSecao === "Gramática") {
     const idiomaLower = idioma.toLowerCase();
     const exercicios = textosCartoes[idiomaLower]?.find(
       (item) => item.titulo === tituloSecao
@@ -217,37 +200,30 @@ function exibirConteudoSecao(tituloSecao, idioma, nivel) {
           modalExercicios.classList.add("hidden");
         }
       });
-      return; // Evita que o modal de cronograma seja exibido também
+      return;
     } else {
       modalConteudo.innerHTML =
         "<p>Exercícios de gramática não disponíveis no momento.</p>";
     }
   }
 
-  modalCronograma.classList.remove("hidden"); // Usa la referencia directa al modal
-  console.log("Modal deve estar visível agora (classe 'hidden' removida).");
+  modalCronograma.classList.remove("hidden");
 
-  // Asegúrate de que los listeners para cerrar el modal estén adjuntados (si no lo están ya)
   const modalFechar = document.getElementById("modal-fechar");
   if (modalFechar) {
     modalFechar.addEventListener("click", () => {
       modalCronograma.classList.add("hidden");
-      console.log("Botão 'Fechar' do modal clicado.");
     });
   }
 
   window.addEventListener("click", (event) => {
     if (event.target === modalCronograma) {
       modalCronograma.classList.add("hidden");
-      console.log("Clique fora do modal detectado.");
     }
   });
 }
 
 async function sendMessageDB(userMessage = null) {
-  console.log(dataBase);
-  console.log("Idioma escolhido:", learningLanguage);
-
   let currentMessage = userMessage;
   if (userMessage === null && inputChat) {
     currentMessage = inputChat.value.trim();
@@ -259,9 +235,9 @@ async function sendMessageDB(userMessage = null) {
       chatArea.insertAdjacentHTML(
         "beforeend",
         `
-                <div class="user">
-                    <p>${currentMessage}</p>
-                </div>`
+            <div class="user">
+              <p>${currentMessage}</p>
+            </div>`
       );
       chatArea.scrollTop = chatArea.scrollHeight;
 
@@ -289,17 +265,15 @@ async function sendMessageDB(userMessage = null) {
 
       result = await chat.sendMessageStream(promptComIdioma);
 
-      textoParrafoBot.textContent = ""; // Inicializa el texto del bot como vacío
+      textoParrafoBot.textContent = "";
       for await (const chunk of result.stream) {
         const text = await chunk.text();
         fullResponse += text;
-        textoParrafoBot.textContent = fullResponse; // Actualiza el texto con cada chunk
-        chatArea.scrollTop = chatArea.scrollHeight; // Mantén el scroll abajo
+        textoParrafoBot.textContent = fullResponse;
+        chatArea.scrollTop = chatArea.scrollHeight;
       }
 
-      // Adjuntar el listener ao botão de hablar após a resposta estar completa
       botaoHablar.addEventListener("click", () => {
-        console.log("Botão 'falar' clicado. Texto:", fullResponse); // Adicione esta linha para debug
         if ("speechSynthesis" in window) {
           const utterance = new SpeechSynthesisUtterance(fullResponse);
           utterance.lang =
@@ -331,9 +305,9 @@ async function sendMessageDB(userMessage = null) {
       chatArea.insertAdjacentHTML(
         "beforeend",
         `
-                <div class="error">
-                    <p>The message could not be sent. Please try again.</p>
-                </div>`
+            <div class="error">
+              <p>The message could not be sent. Please try again.</p>
+            </div>`
       );
       chatArea.scrollTop = chatArea.scrollHeight;
     }
