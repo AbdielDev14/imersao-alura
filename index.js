@@ -22,6 +22,10 @@ const textosCartoes = {
     {
       titulo: "Gramática",
       descricao: "Estude as regras gramaticais do inglês.",
+      exercicios: [
+        "Complete as frases com o verbo 'to be': I ___ a student. You ___ my friend.",
+        "Escolha o pronome correto: ___ is a cat. (It/She/He)",
+      ],
     },
     { titulo: "Vocabulário", descricao: "Aprenda novas palavras em inglês." },
     { titulo: "Escrita", descricao: "Pratique a escrita em inglês." },
@@ -34,6 +38,10 @@ const textosCartoes = {
     {
       titulo: "Gramática",
       descricao: "Estudia las reglas gramaticales del español.",
+      exercicios: [
+        "Completa las frases con el verbo 'ser': Yo ___ estudiante. Tú ___ mi amigo.",
+        "Elige el pronombre correcto: ___ es un perro. (Él/Ella/Eso)",
+      ],
     },
     { titulo: "Vocabulario", descricao: "Aprende nuevas palabras en español." },
     { titulo: "Escritura", descricao: "Practica la escritura en español." },
@@ -43,6 +51,10 @@ const textosCartoes = {
     {
       titulo: "Gramática",
       descricao: "Estude as regras gramaticais do português.",
+      exercicios: [
+        "Complete as frases com o verbo 'ser': Eu ___ um estudante. Você ___ meu amigo.",
+        "Escolha o pronome correto: ___ é um livro. (Ele/Ela/Isso)",
+      ],
     },
     {
       titulo: "Vocabulário",
@@ -58,6 +70,10 @@ const textosCartoes = {
     {
       titulo: "Grammatica",
       descricao: "Studia le regole grammaticali dell'italiano.",
+      exercicios: [
+        "Completa le frasi con il verbo 'essere': Io ___ uno studente. Tu ___ il mio amico.",
+        "Scegli il pronome corretto: ___ è un gatto. (Lui/Lei/Esso)",
+      ],
     },
     { titulo: "Vocabolario", descricao: "Impara nuove parole in italiano." },
     { titulo: "Scrittura", descricao: "Pratica la scrittura in italiano." },
@@ -90,7 +106,7 @@ function adicionarMensagemBot(mensagem) {
   botaoHablar.classList.add("botao-hablar");
   botaoHablar.textContent = "▶"; // Puedes usar un icono en lugar de texto
 
-  botaoHablar.onclick = () => {
+  botaoHablar.addEventListener("click", () => {
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance(mensagem);
       utterance.lang =
@@ -107,7 +123,7 @@ function adicionarMensagemBot(mensagem) {
     } else {
       alert("La síntesis de voz no es compatible con este navegador.");
     }
-  };
+  });
 
   mensagemDiv.appendChild(textoParrafo);
   mensagemDiv.appendChild(botaoHablar);
@@ -169,10 +185,49 @@ function exibirConteudoSecao(tituloSecao, idioma, nivel) {
   modalConversacao.innerHTML = "";
   modalGramatica.innerHTML = "";
 
+  const modalExercicios = document.getElementById("exercicios-modal"); // Assumindo um novo modal para exercícios
+  const exerciciosLista = document.getElementById("exercicios-lista"); // Lista dentro do modal de exercícios
+  const modalFecharExercicios = document.getElementById(
+    "modal-fechar-exercicios"
+  ); // Botão para fechar o modal de exercícios
+
+  if (tituloSecao === "Gramática" || tituloSecao === "Gramática") {
+    const idiomaLower = idioma.toLowerCase();
+    const exercicios = textosCartoes[idiomaLower]?.find(
+      (item) => item.titulo === tituloSecao
+    )?.exercicios;
+
+    if (exercicios && modalExercicios && exerciciosLista) {
+      exerciciosLista.innerHTML = "";
+      exercicios.forEach((exercicio) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = exercicio;
+        exerciciosLista.appendChild(listItem);
+      });
+      modalExercicios.classList.remove("hidden");
+
+      if (modalFecharExercicios) {
+        modalFecharExercicios.addEventListener("click", () => {
+          modalExercicios.classList.add("hidden");
+        });
+      }
+
+      window.addEventListener("click", (event) => {
+        if (event.target === modalExercicios) {
+          modalExercicios.classList.add("hidden");
+        }
+      });
+      return; // Evita que o modal de cronograma seja exibido também
+    } else {
+      modalConteudo.innerHTML =
+        "<p>Exercícios de gramática não disponíveis no momento.</p>";
+    }
+  }
+
   modalCronograma.classList.remove("hidden"); // Usa la referencia directa al modal
   console.log("Modal deve estar visível agora (classe 'hidden' removida).");
 
-  // Asegúrese de que los listeners para cerrar el modal estén adjuntados (si no lo están ya)
+  // Asegúrate de que los listeners para cerrar el modal estén adjuntados (si no lo están ya)
   const modalFechar = document.getElementById("modal-fechar");
   if (modalFechar) {
     modalFechar.addEventListener("click", () => {
@@ -221,19 +276,30 @@ async function sendMessageDB(userMessage = null) {
       chatArea.appendChild(mensagemBotDiv);
       chatArea.scrollTop = chatArea.scrollHeight;
 
+      const loaderDiv = document.createElement("div");
+      loaderDiv.classList.add("loader");
+      chatArea.appendChild(loaderDiv);
+      chatArea.scrollTop = chatArea.scrollHeight;
+
       const chat = modelFirst.startChat(dataBase);
       let result;
       let fullResponse = "";
 
       const promptComIdioma = `Você está assistindo um usuário que está aprendendo ${learningLanguage}. Responda de forma útil e encorajadora. Use dois espaços no final de cada frase onde você gostaria de uma quebra de linha, seguido por um Enter. A mensagem do usuário é: ${currentMessage}`;
 
-      result = await chat.sendMessage(promptComIdioma);
-      fullResponse = result.response.candidates[0].content.parts[0].text;
-      textoParrafoBot.textContent = fullResponse;
-      chatArea.scrollTop = chatArea.scrollHeight;
+      result = await chat.sendMessageStream(promptComIdioma);
+
+      textoParrafoBot.textContent = ""; // Inicializa el texto del bot como vacío
+      for await (const chunk of result.stream) {
+        const text = await chunk.text();
+        fullResponse += text;
+        textoParrafoBot.textContent = fullResponse; // Actualiza el texto con cada chunk
+        chatArea.scrollTop = chatArea.scrollHeight; // Mantén el scroll abajo
+      }
 
       // Adjuntar el listener ao botão de hablar após a resposta estar completa
-      botaoHablar.onclick = () => {
+      botaoHablar.addEventListener("click", () => {
+        console.log("Botão 'falar' clicado. Texto:", fullResponse); // Adicione esta linha para debug
         if ("speechSynthesis" in window) {
           const utterance = new SpeechSynthesisUtterance(fullResponse);
           utterance.lang =
@@ -250,7 +316,7 @@ async function sendMessageDB(userMessage = null) {
         } else {
           alert("La síntesis de voz no es compatible con este navegador.");
         }
-      };
+      });
 
       dataBase.pessoalInformacao.push({
         role: "user",
@@ -270,6 +336,11 @@ async function sendMessageDB(userMessage = null) {
                 </div>`
       );
       chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    const loader = document.querySelector(".chat-container .chat-area .loader");
+    if (loader) {
+      loader.remove();
     }
   }
 }
